@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<adfc-config xmlns="http://xmlns.oracle.com/adf/controller" version="1.2">
+  <task-flow-definition id="ERPSOLPMSBTF">
+    <default-activity>doERPSolPMSSessionGlobals</default-activity>
+    <data-control-scope>
+      <shared/>
+    </data-control-scope>
+    <input-parameter-definition id="__19">
+      <name>P_ADF_USERCODE</name>
+      <value>#{pageFlowScope.ERPSolPMSPageFlowBean.ERPSolStrUserCode}</value>
+      <class>erpsolpms.erpsolpmsview.erpsolpmsclass.ERPSolPMSBean</class>
+    </input-parameter-definition>
+    <input-parameter-definition id="__20">
+      <name>P_ADF_USER_LOCATIONCODE</name>
+      <value>#{pageFlowScope.ERPSolPMSPageFlowBean.ERPSolStrUserLocationCode}</value>
+      <class>erpsolpms.erpsolpmsview.erpsolpmsclass.ERPSolPMSBean</class>
+    </input-parameter-definition>
+    <input-parameter-definition id="__21">
+      <name>P_ADF_USER_STORECODE</name>
+      <value>#{pageFlowScope.ERPSolPMSPageFlowBean.ERPSolStrUserStoreCode}</value>
+      <class>erpsolpms.erpsolpmsview.erpsolpmsclass.ERPSolPMSBean</class>
+    </input-parameter-definition>
+    <input-parameter-definition id="__22">
+      <name>P_ADF_USER_REGIONCODE</name>
+      <value>#{pageFlowScope.ERPSolPMSPageFlowBean.ERPSolStrUserRegionCode}</value>
+      <class>erpsolpms.erpsolpmsview.erpsolpmsclass.ERPSolPMSBean</class>
+    </input-parameter-definition>
+    <managed-bean id="__1">
+      <managed-bean-name>ERPSolTempBean</managed-bean-name>
+      <managed-bean-class>erpsoltemp.erpsoltempview.erptempclass.ERPSolutionTemplateBean</managed-bean-class>
+      <managed-bean-scope>pageFlow</managed-bean-scope>
+    </managed-bean>
+    <managed-bean id="__2">
+      <managed-bean-name>ERPSolPMSPageFlowBean</managed-bean-name>
+      <managed-bean-class>erpsolpms.erpsolpmsview.erpsolpmsclass.ERPSolPMSBean</managed-bean-class>
+      <managed-bean-scope>pageFlow</managed-bean-scope>
+    </managed-bean>
+    <method-call id="RollbackBeforeActivityPMS">
+      <method>#{bindings.Rollback.execute}</method>
+      <outcome>
+        <fixed-outcome>ERP-GOTO-PMS-MAIN</fixed-outcome>
+      </outcome>
+    </method-call>
+    <method-call id="doERPSolPMSSessionGlobals">
+      <method>#{pageFlowScope.ERPSolPMSPageFlowBean.doSetERPSolPMSSessionGlobals}</method>
+      <outcome>
+        <fixed-outcome>ERP-GOTO-PMS-MAIN</fixed-outcome>
+      </outcome>
+    </method-call>
+    <method-call id="ExeParaSetupFormsPMS">
+      <method>#{bindings.ExecuteWithParams.execute}</method>
+      <outcome>
+        <fixed-outcome>ERP-GOTO-PMS-MAIN</fixed-outcome>
+      </outcome>
+    </method-call>
+    <method-call id="ExeParaTransactionFormsPMS">
+      <method>#{bindings.ExecuteWithParams.execute}</method>
+      <outcome>
+        <fixed-outcome>ERP-GOTO-PMS-MAIN</fixed-outcome>
+      </outcome>
+    </method-call>
+    <method-call id="ExeParaReverseFormsPMS">
+      <method>#{bindings.ExecuteWithParams.execute}</method>
+      <outcome>
+        <fixed-outcome>ERP-GOTO-PMS-MAIN</fixed-outcome>
+      </outcome>
+    </method-call>
+    <method-call id="ExeParaReverseReportsDetailPMS">
+      <method>#{bindings.ExecuteWithParams.execute}</method>
+      <outcome>
+        <fixed-outcome>ERP-GOTO-PMS-MAIN</fixed-outcome>
+      </outcome>
+    </method-call>
+    <view id="ERPSolPMSMain">
+      <page>/ERPSolPMSMain.jsf</page>
+    </view>
+    <task-flow-return id="ERPSOL-RETURN-FROM-PMS">
+      <outcome>
+        <name>ERPSOL-RETURN-FROM-PMS</name>
+      </outcome>
+    </task-flow-return>
+    <task-flow-return id="ACT-ERP-SOL-LOGOUT">
+      <outcome>
+        <name>ACT-ERP-SOL-LOGOUT</name>
+      </outcome>
+    </task-flow-return>
+    <method-call id="RollbackBeforeLogoutPMS">
+      <method>#{bindings.Rollback.execute}</method>
+      <outcome>
+        <fixed-outcome>RollbackBeforeLogoutAPS</fixed-outcome>
+      </outcome>
+    </method-call>
+    <method-call id="ExeParaReverseReportsPMS">
+      <method>#{bindings.ExecuteWithParams.execute}</method>
+      <outcome>
+        <fixed-outcome>ERP-GOTO-PMS-MAIN</fixed-outcome>
+      </outcome>
+    </method-call>
+    <control-flow-rule id="__3">
+      <from-activity-id>*</from-activity-id>
+      <control-flow-case id="__4">
+        <from-outcome>ACTStartERPSolutionTaskFlow</from-outcome>
+        <to-activity-id>RollbackBeforeActivityPMS</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__5">
+      <from-activity-id>RollbackBeforeActivityPMS</from-activity-id>
+      <control-flow-case id="__6">
+        <from-outcome>ERP-GOTO-PMS-MAIN</from-outcome>
+        <to-activity-id>ExeParaSetupFormsPMS</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__7">
+      <from-activity-id>ExeParaSetupFormsPMS</from-activity-id>
+      <control-flow-case id="__8">
+        <from-outcome>ERP-GOTO-PMS-MAIN</from-outcome>
+        <to-activity-id>ExeParaTransactionFormsPMS</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__9">
+      <from-activity-id>ExeParaTransactionFormsPMS</from-activity-id>
+      <control-flow-case id="__10">
+        <from-outcome>ERP-GOTO-PMS-MAIN</from-outcome>
+        <to-activity-id>ExeParaReverseFormsPMS</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__11">
+      <from-activity-id>*</from-activity-id>
+      <control-flow-case id="__12">
+        <from-outcome>ERP-ACT-EXIT-FORM-PMS</from-outcome>
+        <to-activity-id>ERPSolPMSMain</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__13">
+      <from-activity-id>*</from-activity-id>
+      <control-flow-case id="__14">
+        <from-outcome>ACT-ERPSOL-RETURN-FROM-PMS</from-outcome>
+        <to-activity-id>ERPSOL-RETURN-FROM-PMS</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__15">
+      <from-activity-id>*</from-activity-id>
+      <control-flow-case id="__16">
+        <from-outcome>RollbackBeforeLogoutAPS</from-outcome>
+        <to-activity-id>RollbackBeforeLogoutPMS</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__17">
+      <from-activity-id>RollbackBeforeLogoutPMS</from-activity-id>
+      <control-flow-case id="__18">
+        <from-outcome>RollbackBeforeLogoutAPS</from-outcome>
+        <to-activity-id>ACT-ERP-SOL-LOGOUT</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__23">
+      <from-activity-id>ExeParaReverseFormsPMS</from-activity-id>
+      <control-flow-case id="__24">
+        <from-outcome>ERP-GOTO-PMS-MAIN</from-outcome>
+        <to-activity-id>ExeParaReverseReportsPMS</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__25">
+      <from-activity-id>ExeParaReverseReportsDetailPMS</from-activity-id>
+      <control-flow-case id="__26">
+        <from-outcome>ERP-GOTO-PMS-MAIN</from-outcome>
+        <to-activity-id>ERPSolPMSMain</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__27">
+      <from-activity-id>doERPSolPMSSessionGlobals</from-activity-id>
+      <control-flow-case id="__28">
+        <from-outcome>ERP-GOTO-PMS-MAIN</from-outcome>
+        <to-activity-id>RollbackBeforeActivityPMS</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <control-flow-rule id="__29">
+      <from-activity-id>ExeParaReverseReportsPMS</from-activity-id>
+      <control-flow-case id="__30">
+        <from-outcome>ERP-GOTO-PMS-MAIN</from-outcome>
+        <to-activity-id>ExeParaReverseReportsDetailPMS</to-activity-id>
+      </control-flow-case>
+    </control-flow-rule>
+    <visibility>
+      <url-invoke-allowed/>
+    </visibility>
+  </task-flow-definition>
+</adfc-config>
